@@ -71,6 +71,9 @@ const vote = async (req, res) => {
             voted += 1;
         }
     }
+
+    
+
     if (voted == 5) {
         ticket_doc = await admin.firestore().collection('tickets').doc(req.body.ticketId).update({
             ongoing: false
@@ -150,6 +153,8 @@ const vote = async (req, res) => {
 
         res.send(block);
     } 
+
+    res.send({success: true});
 }
 
 router.post('/', vote);

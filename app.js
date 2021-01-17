@@ -16,11 +16,13 @@ var metaDataRouter = require('./routes/metadata');
 var retrieveTicketsRouter = require('./routes/retrievetickets');
 var searchRouter = require('./routes/search');
 var app = express();
+var cors = require('cors')
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
+app.use(cors());
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));

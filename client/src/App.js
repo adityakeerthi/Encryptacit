@@ -5,19 +5,28 @@ import getWeb3 from "./getWeb3";
 import { Layout, Menu } from "antd";
 import { SearchOutlined, HomeOutlined, FormOutlined } from "@ant-design/icons";
 import { Home, Search, Submit, Appraise, NoAccount } from "./components";
+import {userExists, addUser} from "./api";
 
 import "./App.css";
 
 const { Content, Footer, Sider } = Layout;
 
 class App extends Component {
-  state = {
-    storageValue: 0,
-    web3: null,
-    accounts: null,
-    contract: null,
-    hasAccount: true,
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      storageValue: 0,
+      web3: null,
+      accounts: null,
+      contract: null,
+      hasAccount: false,
+    };
+    this.onSignup = this.onSignup.bind(this);
+  }
+  
+  
+
+  
 
   componentDidMount = async () => {
     try {
@@ -38,7 +47,15 @@ class App extends Component {
         window.ethereum
       ).getSigner();
 
-      // Set web3, accounts, and contract to the state, and then proceed with an
+
+
+
+      var exists = false;
+      userExists({accountId: account})
+        .then(response => {
+          exists = response.exists
+
+          // Set web3, accounts, and contract to the state, and then proceed with an
       // example of interacting with the contract's methods.
       this.setState({
         web3,
@@ -48,7 +65,23 @@ class App extends Component {
         defaultSelectedKeys: ["home", "search", "submit", "appraise"].indexOf(
           route
         ),
+        hasAccount: exists
       });
+        })
+        .catch(err => {
+          console.log(err);
+        })
+
+
+
+
+
+
+
+
+
+
+      
 
       // Catch any errors for any of the above operations.
     } catch (err) {
@@ -58,6 +91,11 @@ class App extends Component {
       console.error(err);
     }
   };
+
+  onSignup(){
+    this.setState({hasAccount: true})
+    console.log("it worked")
+  }
 
   render() {
     if (!this.state.account) {
@@ -107,20 +145,20 @@ class App extends Component {
                     {this.state.hasAccount ? (
                       <>
                         <Route path="/search">
-                          <Search></Search>
+                          <Search account={this.state.account}></Search>
                         </Route>
                         <Route path="/submit">
-                          <Submit></Submit>
+                          <Submit account={this.state.account}></Submit>
                         </Route>
                         <Route path="/appraise">
-                          <Appraise></Appraise>
+                          <Appraise account={this.state.account} signer={this.state.signer}></Appraise>
                         </Route>
                         <Route exact path="/">
-                          <Home></Home>
+                          <Home account={this.state.account}></Home>
                         </Route>
                       </>
                     ) : (
-                      <NoAccount></NoAccount>
+                      <NoAccount account={this.state.account} onSignup={this.onSignup}></NoAccount>
                     )}
                   </Switch>
                 </div>

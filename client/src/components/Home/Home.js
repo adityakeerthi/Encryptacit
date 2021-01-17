@@ -12,6 +12,7 @@ import {
 } from "antd";
 
 import { CheckCircleOutlined, StopOutlined } from "@ant-design/icons";
+import {getAllTickets} from "../../api";
 
 const { Title, Text, Paragraph, Link } = Typography;
 const { Meta } = Card;
@@ -222,6 +223,17 @@ class Home extends Component {
       ],
     };
   }
+
+  componentDidMount(){
+    getAllTickets(this.props.account)
+      .then(response => {
+        console.log(response)
+      })
+      .catch(err => {
+        console.log(err);
+      })
+  }
+
   render() {
     return (
       <div className="site-content-container">

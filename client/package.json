@@ -5,6 +5,7 @@
   "dependencies": {
     "@craco/craco": "^5.6.4",
     "antd": "^4.6.0",
+    "big-integer": "^1.6.48",
     "craco-less": "^1.17.0",
     "ethers": "^5.0.26",
     "react": "16.11.0",

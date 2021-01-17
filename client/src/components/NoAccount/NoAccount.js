@@ -2,6 +2,7 @@ import React, { Component } from "react";
 
 import { Typography, Card, Tag, Input, Button, Alert } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
+import { addUser} from "../../api";
 
 const { Title, Text, Paragraph } = Typography;
 
@@ -26,10 +27,30 @@ class NoAccount extends Component {
       ],
       selected: [],
     };
+    this.onSubmit = this.onSubmit.bind(this);
   }
 
   addTag(tag) {
     this.setState((prevState) => ({ selected: [...prevState.selected, tag] }));
+  }
+
+  onSubmit(){
+    var body = {
+      username: this.state.username,
+      region: this.state.city + " " + this.state.province + " " + this.state.country,
+      tags: this.state.selected,
+      accountId: this.props.account
+    }
+    addUser(body)
+      .then(response => {
+        console.log("HELLO");
+        console.log(response)
+        this.props.onSignup();
+      }) 
+      .catch(err => {
+        console.log(err);
+      })
+    
   }
 
   render() {
@@ -53,7 +74,7 @@ class NoAccount extends Component {
             justifyContent: "flex-start",
           }}
           actions={[
-            <Button type="primary" onClick={this.goNextStage}>
+            <Button type="primary" onClick={this.onSubmit}>
               Submit
             </Button>,
           ]}
@@ -77,7 +98,7 @@ class NoAccount extends Component {
               <Text strong>Username</Text>
               <Input
                 placeholder="Username..."
-                onChange={(e) => this.setState({ country: e.target.value })}
+                onChange={(e) => this.setState({ username: e.target.value })}
               />
             </span>
           </div>

@@ -11,6 +11,8 @@ import {
   Alert,
 } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
+import {createTicket} from "../../api";
+import {ethers} from  'ethers';
 
 const { Title, Text, Paragraph } = Typography;
 const { TextArea } = Input;
@@ -22,25 +24,16 @@ class Submit extends Component {
       stage: 1,
       stages: ["Tags", "Estimated Value", "Contact", "Review"],
       available: [
-        "bruh",
-        "what",
-        "the",
-        "fuck",
-        "is",
-        "this",
-        "unique",
-        "tags",
-        "i'm",
-        "running",
-        "out",
-        "of",
-        "words",
+        "Commodities",
+        "Vehicles",
+        "Property"
       ],
       selected: [],
       description: "",
     };
     this.goNextStage = this.goNextStage.bind(this);
     this.goBackStage = this.goBackStage.bind(this);
+    this.onSubmit = this.onSubmit.bind(this);
   }
 
   goNextStage() {
@@ -53,6 +46,28 @@ class Submit extends Component {
 
   addTag(tag) {
     this.setState((prevState) => ({ selected: [...prevState.selected, tag] }));
+  }
+
+  onSubmit(){
+    const etherCost = ethers.utils.parseEther("0.067")
+    
+    let tx = this.props.signer.sendTransaction({
+        to: '0xf0978c2905e0C17aBe7794d7319B0092eA13844A', 
+        value: etherCost
+    }).then (t => {
+      createTicket(this.state.value, this.props.account, this.state.selected, this.state.description, this.state.email)
+      .then(response => {
+        console.log(response)
+      })
+      .catch(err => {
+        console.log(err)
+      })
+    })
+  }
+
+  CAD_to_WEI = (cad) => {
+
+    return (cad*0.00063*1000000000000000000).toString();
   }
 
   render() {
@@ -106,7 +121,7 @@ class Submit extends Component {
                       >
                         Back
                       </Button>
-                      <Button type="primary" onClick={this.goNextStage}>
+                      <Button type="primary" onClick={this.onSubmit}>
                         Submit
                       </Button>
                     </>,
