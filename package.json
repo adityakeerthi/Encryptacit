@@ -8,6 +8,8 @@
   "dependencies": {
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
+    "ethereum-input-data-decoder": "^0.3.1",
+    "ethers": "^5.0.26",
     "express": "~4.16.1",
     "firebase-admin": "^9.4.2",
     "http-errors": "~1.6.3",

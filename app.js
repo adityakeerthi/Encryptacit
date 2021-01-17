@@ -8,6 +8,13 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var authRouter = require('./routes/auth');
 var stakeRouter = require('./routes/stake');
+// var publishBlockRouter = require('./routes/publishBlock')
+// var paymentRouter = require('./routes/payment')
+var ticketRouter = require('./routes/ticket')
+var voteRouter = require('./routes/vote');
+var metaDataRouter = require('./routes/metadata');
+var retrieveTicketsRouter = require('./routes/retrievetickets');
+var searchRouter = require('./routes/search');
 var app = express();
 
 // view engine setup
@@ -24,6 +31,13 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/auth', authRouter);
 app.use('/stake', stakeRouter);
+// app.use('/publishBlock', publishBlockRouter);
+// app.use('/payment', paymentRouter);
+app.use('/ticket', ticketRouter);
+app.use('/vote', voteRouter);
+app.use('/metadata', metaDataRouter);
+app.use('/retrievetickets', retrieveTicketsRouter);
+app.use('/search', searchRouter)
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

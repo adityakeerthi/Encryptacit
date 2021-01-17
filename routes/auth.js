@@ -15,16 +15,18 @@ const addUser = async (req, res) => {
             tags: req.body.tags, // array of tags
             reputation: 0, 
             tickets: [],
-            staked: false
+            stake: false,
+            tickets_to_validate: {}
         }
         try {
             admin.firestore().collection('users').doc(req.body.accountId).set(account_info)
         } catch (e) {
             res.status(404).send(e);
         }
-        res.send(true);
+        res.send(account_info);
+    } else {
+
     }
-    res.send("hi")
 }
 
 router.post('/', addUser); 
