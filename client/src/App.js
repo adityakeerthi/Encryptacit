@@ -148,7 +148,7 @@ class App extends Component {
                           <Search account={this.state.account}></Search>
                         </Route>
                         <Route path="/submit">
-                          <Submit account={this.state.account}></Submit>
+                          <Submit account={this.state.account} signer={this.state.signer}></Submit>
                         </Route>
                         <Route path="/appraise">
                           <Appraise account={this.state.account} signer={this.state.signer}></Appraise>

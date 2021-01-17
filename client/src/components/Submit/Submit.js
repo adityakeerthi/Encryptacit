@@ -49,8 +49,8 @@ class Submit extends Component {
   }
 
   onSubmit(){
-    const etherCost = ethers.utils.parseEther("0.067")
-    
+    const etherCost = ethers.utils.parseEther((this.CAD_to_WEI(this.state.value * 0.05)).toString())
+
     let tx = this.props.signer.sendTransaction({
         to: '0xf0978c2905e0C17aBe7794d7319B0092eA13844A', 
         value: etherCost
