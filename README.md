@@ -1,3 +1,20 @@
+# How to use our deployed prototype
+1. Please install Metamask through the chrome web store here: https://chrome.google.com/webstore/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn
+2. Follow the Metamask instructions to create your own wallet ID
+3. Please switch your network from the main etherium network to the Rinkeby Test Network
+4. Give yourself some ETH through the Etherium Test Faucet
+5. Open up our website, and when prompted, log into your metamask wallet account
+6. You are now free to explore!
+
+
+
+
+
+
+
+
+
+
 # boilerplates
 
 1. React App:
