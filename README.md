@@ -2,9 +2,11 @@
 1. Please install Metamask through the chrome web store here: https://chrome.google.com/webstore/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn
 2. Follow the Metamask instructions to create your own wallet ID
 3. Please switch your network from the main etherium network to the Rinkeby Test Network
-4. Give yourself some ETH through the Etherium Test Faucet
+4. Give yourself some ETH through the Rinkeby Ethereum Test Faucet
 5. Open up our website at https://htn2021-27e30.web.app/, and when prompted, log into your metamask wallet account
 6. You are now free to explore!
+
+Note: If you would like to try out some of the advanced features of our app, you may need to create multiple Metamask accounts.
 
 
 
