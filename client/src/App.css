@@ -33,3 +33,45 @@
   height: fit-content;
   margin-right: 40px !important;
 }
+
+.logo-nav{
+  width: 120px;
+  height: 120px;
+  margin: auto;
+}
+
+.logo-navbar:hover{
+  cursor: pointer !important;
+}
+
+.signed-out-div{
+  width: 100vw;
+  height: 100vh;
+  background: #f0f2f5;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+@keyframes zoominoutsinglefeatured {
+  0% {
+      transform: scale(1,1);
+  }
+  50% {
+      transform: scale(1.2,1.2);
+  }
+  100% {
+      transform: scale(1,1);
+  }
+}
+.signed-out-logo{
+  width: 500px;
+  height: 500px;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: 50% 50%;
+  animation: zoominoutsinglefeatured 1s infinite ;
+
+}
+

@@ -11,7 +11,7 @@
    * Returns promise which resolves/rejects when fetch request finishes
    */
   const fetchRequest = (url, requestOptions) => {
-    var base = process.env.NODE_ENV === "production" ? "http://localhost:3005" : "http://localhost:3005"
+    var base = process.env.NODE_ENV === "production" ? "https://zvga1bw444.execute-api.us-east-1.amazonaws.com/dev" : "http://localhost:3005"
     return new Promise((resolve, reject) => {
         fetch(base + url, requestOptions)
             .then(response => response.text())

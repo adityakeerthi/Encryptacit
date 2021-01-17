@@ -9,6 +9,8 @@ import {
   InputNumber,
   Input,
   Alert,
+  Empty,
+  Spin
 } from "antd";
 
 import { CheckCircleOutlined, StopOutlined } from "@ant-design/icons";
@@ -41,7 +43,7 @@ const OutgoingCard = (props) => {
         Consensus:{" "}
         {props.consensus === true ? (
           <CheckCircleOutlined></CheckCircleOutlined>
-        ) : (
+        ) : props.consensus === false ? <StopOutlined></StopOutlined> : (
           "pending..."
         )}
       </Text>
@@ -85,6 +87,7 @@ const CompletedCard = (props) => {
         display: "flex",
         flexDirection: "column",
         alignItems: "flex-start",
+        width: "450px"
       }}
       style={{ marginBottom: "14px" }}
     >
@@ -98,7 +101,7 @@ const CompletedCard = (props) => {
         Consensus:{" "}
         {props.consensus === true ? (
           <CheckCircleOutlined></CheckCircleOutlined>
-        ) : (
+        ) : props.consensus === false ? <StopOutlined></StopOutlined> : (
           "pending..."
         )}
       </Text>
@@ -142,6 +145,7 @@ class Home extends Component {
       },
       completed: [
       ],
+      loading: true
     };
   }
 
@@ -181,7 +185,7 @@ class Home extends Component {
           }
         }
 
-        this.setState({outgoing, completed})
+        this.setState({outgoing, completed, loading: false})
       })
       .catch(err => {
         console.log(err);
@@ -204,11 +208,14 @@ class Home extends Component {
             }}
           >
             <Title level={5}>Pending</Title>
-            {this.state.outgoing.pending.map((val) => {
-              return <OutgoingCard {...val}></OutgoingCard>;
-            })}
+            {
+              this.state.loading ? <div style={{display: "flex", justifyContent: "center", width: "100%"}}><Spin/></div> : this.state.outgoing.pending.length === 0 ? <div style={{display: "flex", justifyContent: "center", width: "100%"}}><Empty description=""/> </div> : this.state.outgoing.pending.map((val) => {
+                return <OutgoingCard {...val}></OutgoingCard>;
+              })
+            }
+
             <Title level={5}>Resolved</Title>
-            {this.state.outgoing.resolved.map((val) => {
+            {this.state.loading ? <div style={{display: "flex", justifyContent: "center", width: "100%"}}><Spin/></div> : this.state.outgoing.resolved.length === 0 ? <div style={{display: "flex", justifyContent: "center", width: "100%"}}><Empty description=""/> </div> : this.state.outgoing.resolved.map((val) => {
               return <OutgoingCard {...val}></OutgoingCard>;
             })}
           </Card>
@@ -222,7 +229,7 @@ class Home extends Component {
               alignItems: "flex-start",
             }}
           >
-            {this.state.completed.map((val) => {
+            {this.state.loading ? <div style={{display: "flex", justifyContent: "center", width: "100%"}}><Spin/></div> : this.state.completed.length === 0 ? <div style={{display: "flex", justifyContent: "center", width: "100%"}}><Empty description=""/> </div>: this.state.completed.map((val) => {
               return <CompletedCard {...val}></CompletedCard>;
             })}
           </Card>

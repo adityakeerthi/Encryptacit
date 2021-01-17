@@ -4,8 +4,10 @@ import { BrowserRouter, Route, Link, Switch } from "react-router-dom";
 import getWeb3 from "./getWeb3";
 import { Layout, Menu } from "antd";
 import { SearchOutlined, HomeOutlined, FormOutlined } from "@ant-design/icons";
-import { Home, Search, Submit, Appraise, NoAccount } from "./components";
+import { Home, Search, Submit, Appraise, NoAccount, SignedOut } from "./components";
 import {userExists, addUser} from "./api";
+
+import logo from "./logo.png"
 
 import "./App.css";
 
@@ -37,7 +39,9 @@ class App extends Component {
       var link = ["home", "search", "submit", "appraise"].indexOf(
         route
       );
-      console.log(route)
+      if (!route){
+        link = "home"
+      }
 
       // Get network provider and web3 instance.
       const web3 = await getWeb3();
@@ -51,9 +55,6 @@ class App extends Component {
         window.ethereum
       ).getSigner();
 
-
-
-
       var exists = false;
       userExists({accountId: account})
         .then(response => {
@@ -66,26 +67,14 @@ class App extends Component {
         accounts,
         account,
         signer,
-        defaultSelectedKeys: ["home", "search", "submit", "appraise"].indexOf(
-          route
-        ),
+        defaultSelectedKeys:         link
+        ,
         hasAccount: exists
       });
         })
         .catch(err => {
           console.log(err);
         })
-
-
-
-
-
-
-
-
-
-
-      
 
       // Catch any errors for any of the above operations.
     } catch (err) {
@@ -103,7 +92,7 @@ class App extends Component {
 
   render() {
     if (!this.state.account) {
-      return <div>LOGIN PAGE</div>;
+      return <SignedOut/>;
     }
     return (
       <BrowserRouter>
@@ -125,6 +114,11 @@ class App extends Component {
                 mode="inline"
                 defaultSelectedKeys={[`${this.state.defaultSelectedKeys}`]}
               >
+                
+                <Menu.Item style={{height: "150px", display: "flex", justifyContent: "center"}} disabled className="logo-navbar">
+                  <img src="https://firebasestorage.googleapis.com/v0/b/social-media-59b42.appspot.com/o/icon.png?alt=media&token=09775bb0-adf7-4a43-a18d-cb4373f27ec8" className="logo-nav"></img>
+                </Menu.Item>
+
                 <Menu.Item key="0" icon={<HomeOutlined />}>
                   <Link to="/">Home</Link>
                 </Menu.Item>

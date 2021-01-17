@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Typography, Card, Input, Button, Tag } from "antd";
+import { Typography, Card, Input, Button, Tag, Spin, Empty } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import {userExists, setFirebaseStake, getAllTickets, voteForTicket} from "../../api";
 
@@ -67,6 +67,7 @@ class Appraise extends Component {
       tickets: [
         
       ],
+      loaded: false
     };
     this.takeStake = this.takeStake.bind(this);
     this.setValue = this.setValue.bind(this);
@@ -90,12 +91,14 @@ class Appraise extends Component {
                   tickets.push(t[key]);
                 }
               }
-              this.setState({tickets})
+              this.setState({tickets, loaded: true})
               console.log(tickets)
             })
             .catch(err => {
               console.log(err)
             })
+        } else{
+          this.setState({loaded: true})
         }
       })
       .catch(err => {
@@ -121,7 +124,16 @@ class Appraise extends Component {
                   tickets.push(t[key]);
                 }
               }
-              this.setState({tickets})
+
+              var newTickets = []
+
+              for (let a in tickets){
+                if (a.ongoing === true){
+                  newTickets.push(a);
+                }
+              }
+
+              this.setState({tickets: newTickets, loaded: true})
               console.log(tickets)
             })
             .catch(err => {
@@ -138,7 +150,7 @@ class Appraise extends Component {
     const etherCost = ethers.utils.parseEther("0.067")
 
     let tx = this.props.signer.sendTransaction({
-        to: '0xf0978c2905e0C17aBe7794d7319B0092eA13844A', 
+        to: '0x004fb09be11f9c1b364eda9ac15a99cb40f5d4e7', 
         value: etherCost
     }).then (t => {
       setFirebaseStake(this.props.account)
@@ -156,12 +168,24 @@ class Appraise extends Component {
     return (
       <div className="site-content-container">
         {
-          this.state.stake ?  <><Title level={2}>Pending Tickets</Title>
-          {this.state.tickets.map((val) => {
-            if (val.ongoing === true) {
-              return <TicketCard setValue={this.setValue} voteTicket={this.voteTicket} {...val}></TicketCard>;
-            }
-          })}</> : <Button onClick={this.takeStake}>Stake</Button>
+          this.state.loaded ? 
+          this.state.stake ?  
+
+          <>
+            <Title level={2}>Pending Tickets</Title>
+            {this.state.tickets.length === 0 ? <Empty description="No Tickets Found" style={{marginTop: "50px", marginBottom: "50px"}}/> : this.state.tickets.map((val) => {
+                return <TicketCard setValue={this.setValue} voteTicket={this.voteTicket} {...val}></TicketCard>;
+            })}
+          </> 
+          : 
+          
+          <div style={{display: "flex", justifyContent: "center", alignItems: "center",
+          flexDirection: "column", width: "100%", marginTop: "100px"}}>
+            <Title level={2}>You must offer a stake to give Appraisals</Title>
+            <Button onClick={this.takeStake} type="primary">Stake</Button>
+            </div>
+
+            : <Spin/>
 
         }
         

@@ -10,7 +10,7 @@ import {
   Input,
   Alert,
 } from "antd";
-import { PlusOutlined } from "@ant-design/icons";
+import { PlusOutlined, CloseOutlined  } from "@ant-design/icons";
 import {createTicket} from "../../api";
 import {ethers} from  'ethers';
 
@@ -22,13 +22,14 @@ class Submit extends Component {
     super(props);
     this.state = {
       stage: 1,
-      stages: ["Tags", "Estimated Value", "Contact", "Review"],
+      stages: ["Tags", "Estimated Value", "Contact", "Review", "Success"],
       available: [
         "Commodities",
         "Vehicles",
         "Property"
       ],
       selected: [],
+      selectedd: [],
       description: "",
     };
     this.goNextStage = this.goNextStage.bind(this);
@@ -45,7 +46,20 @@ class Submit extends Component {
   }
 
   addTag(tag) {
-    this.setState((prevState) => ({ selected: [...prevState.selected, tag] }));
+    this.setState((prevState) => ({ selected: [...prevState.selected, tag], selectedd: [...prevState.selectedd, tag] }));
+  }
+
+  removeTag(tagg){
+  //   this.setState((prevState) => ({ selected: prevState.selected.filter((tag) => {
+  //     return tag != tagg
+  //   }),
+  // available: [...prevState.available, tagg] }));
+    var available = [...this.state.available]
+    var selectedd = [...this.state.selectedd]
+    selectedd.splice(this.state.selectedd.indexOf(tagg), 1);
+    available.push(tagg)
+    
+    this.setState({available, selectedd})
   }
 
   onSubmit(){
@@ -54,12 +68,13 @@ class Submit extends Component {
     const etherCost = ethers.utils.parseEther((this.CAD_to_ETH(this.state.value * 0.05)).toString())
 
     let tx = this.props.signer.sendTransaction({
-        to: '0xf0978c2905e0C17aBe7794d7319B0092eA13844A', 
+        to: '0x004fb09be11f9c1b364eda9ac15a99cb40f5d4e7', 
         value: etherCost
     }).then (t => {
-      createTicket(this.state.value, this.props.account, this.state.selected, this.state.description, this.state.email)
+      createTicket(this.state.value, this.props.account, this.state.selectedd, this.state.description, this.state.email)
       .then(response => {
         console.log(response)
+        this.goNextStage()
       })
       .catch(err => {
         console.log(err)
@@ -130,7 +145,7 @@ class Submit extends Component {
                       </Button>
                     </>,
                   ]
-                : [
+                : this.state.stage === 5 ? null :[
                     <>
                       <Button
                         type="secondary"
@@ -170,9 +185,10 @@ class Submit extends Component {
                     return (
                       <Tag
                         color="geekblue"
-                        // closable
-                        // closeIcon={<PlusOutlined></PlusOutlined>}
+                        closable
+                        closeIcon={<CloseOutlined ></CloseOutlined >}
                         style={{ marginBottom: "5px" }}
+                        onClose={() => this.removeTag(val)}
                       >
                         {val}{" "}
                       </Tag>
@@ -217,7 +233,7 @@ class Submit extends Component {
               <>
                 <Text strong>Selected Tags</Text>
                 <div className="tags-container">
-                  {this.state.selected.map((val) => {
+                  {this.state.selectedd.map((val) => {
                     return (
                       <Tag
                         color="geekblue"
@@ -279,7 +295,9 @@ class Submit extends Component {
                 />
               </>
             ) : (
-              <div>SUCCESS?</div>
+              <div>
+                <Alert type="success" style={{width: "100%"}} message="You have successfully created your ticket!"></Alert>
+              </div>
             )}
           </Card>
         </div>

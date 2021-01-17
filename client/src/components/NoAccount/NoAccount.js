@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 
 import { Typography, Card, Tag, Input, Button, Alert } from "antd";
-import { PlusOutlined } from "@ant-design/icons";
+import { PlusOutlined, CloseOutlined  } from "@ant-design/icons";
 import { addUser} from "../../api";
 
 const { Title, Text, Paragraph } = Typography;
@@ -11,34 +11,38 @@ class NoAccount extends Component {
     super(props);
     this.state = {
       available: [
-        "bruh",
-        "what",
-        "the",
-        "fuck",
-        "is",
-        "this",
-        "unique",
-        "tags",
-        "i'm",
-        "running",
-        "out",
-        "of",
-        "words",
+        "Commodities",
+        "Vehicles",
+        "Property"
       ],
       selected: [],
+      selectedd: []
     };
     this.onSubmit = this.onSubmit.bind(this);
   }
 
   addTag(tag) {
-    this.setState((prevState) => ({ selected: [...prevState.selected, tag] }));
+    this.setState((prevState) => ({ selected: [...prevState.selected, tag], selectedd: [...prevState.selectedd, tag] }));
   }
+
+  removeTag(tagg){
+    //   this.setState((prevState) => ({ selected: prevState.selected.filter((tag) => {
+    //     return tag != tagg
+    //   }),
+    // available: [...prevState.available, tagg] }));
+      var available = [...this.state.available]
+      var selectedd = [...this.state.selectedd]
+      selectedd.splice(this.state.selectedd.indexOf(tagg), 1);
+      available.push(tagg)
+      
+      this.setState({available, selectedd})
+    }
 
   onSubmit(){
     var body = {
       username: this.state.username,
       region: this.state.city + " " + this.state.province + " " + this.state.country,
-      tags: this.state.selected,
+      tags: this.state.selectedd,
       accountId: this.props.account
     }
     addUser(body)
@@ -180,13 +184,14 @@ class NoAccount extends Component {
           </div>
           <Text strong>Selected Tags</Text>
           <div className="tags-container">
-            {this.state.selected.map((val) => {
+            {this.state.selectedd.map((val) => {
               return (
                 <Tag
                   color="geekblue"
-                  // closable
-                  // closeIcon={<PlusOutlined></PlusOutlined>}
+                  closable
+                  closeIcon={<CloseOutlined></CloseOutlined>}
                   style={{ marginBottom: "5px" }}
+                  onClose={() => this.removeTag(val)}
                 >
                   {val}{" "}
                 </Tag>
