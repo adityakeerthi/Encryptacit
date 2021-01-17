@@ -49,7 +49,9 @@ class Submit extends Component {
   }
 
   onSubmit(){
-    const etherCost = ethers.utils.parseEther((this.CAD_to_WEI(this.state.value * 0.05)).toString())
+    console.log(this.state.value * 0.05)
+    console.log(this.CAD_to_ETH(this.state.value * 0.05))
+    const etherCost = ethers.utils.parseEther((this.CAD_to_ETH(this.state.value * 0.05)).toString())
 
     let tx = this.props.signer.sendTransaction({
         to: '0xf0978c2905e0C17aBe7794d7319B0092eA13844A', 
@@ -65,9 +67,11 @@ class Submit extends Component {
     })
   }
 
-  CAD_to_WEI = (cad) => {
+  CAD_to_ETH = (cad) => {
+     
 
-    return (cad*0.00063*1000000000000000000).toString();
+    return (cad*0.00063).toString();
+
   }
 
   render() {

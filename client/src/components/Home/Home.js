@@ -20,20 +20,23 @@ const { Meta } = Card;
 const OutgoingCard = (props) => {
   return (
     <Card
-      style={{ width: "450px" }}
+      style={{ width: "100%" }}
       bordered
-      //   title={<Text style={{ fontSize: "12px" }}>{props.owner}</Text>}
-      headStyle={{ display: "flex" }}
+      headStyle={{ display: "flex", width: "100%" }}
       bodyStyle={{
         display: "flex",
         flexDirection: "column",
         alignItems: "flex-start",
+        width: "450px"
       }}
       style={{ marginBottom: "14px" }}
     >
-      <Text code style={{ marginBottom: "10px", fontSize: "12px" }}>
+      {
+        props.consensus === true ? <Text code style={{ marginBottom: "10px", fontSize: "12px" }}>
         {props.blockhash}
-      </Text>
+      </Text> : null
+      }
+      
       <Text strong>
         Consensus:{" "}
         {props.consensus === true ? (
@@ -85,9 +88,12 @@ const CompletedCard = (props) => {
       }}
       style={{ marginBottom: "14px" }}
     >
-      <Text code style={{ marginBottom: "10px", fontSize: "12px" }}>
+      {
+        props.blockhash ? <Text code style={{ marginBottom: "10px", fontSize: "12px" }}>
         {props.blockhash}
-      </Text>
+      </Text> : null
+      }
+      
       <Text strong>
         Consensus:{" "}
         {props.consensus === true ? (
@@ -130,96 +136,11 @@ class Home extends Component {
     super(props);
     this.state = {
       outgoing: {
-        pending: [
-          {
-            tags: ["Vehicles"],
-            blockhash:
-              "0x517ee3a23e683c9d23646d998abcf06eda18121d0edc79c8a1deddd5ed9d5962",
-            owner: "0xB5F38Ab1fD869AB7193525a956BA8948Caa0BE47",
-            value: 10000,
-            contact: "yolo@gmail.com",
-            appraisers: {
-              "0x520884C561C01296C99F52A2839004bEaCDc3C80": true,
-              "0x9C3Df261E050A0241ACFf7CC2cDa07b65d9e359d": true,
-              "0x7A427198d68Cf92CfE1b1E1D6bEeB46D84b50807": false,
-              "0xa9b00221877d469831440d6554374Cc0E9714801": false,
-              "0x437bb59e889e3a98fB44a48E0fb9177a71c658B1": true,
-            },
-            ongoing: true,
-            consensus: false,
-            description:
-              "It is a Lamborghini Italian Car. I like it, but I want to sell it, please buy or I will make you.",
-          },
-        ],
+        pending: [],
         resolved: [
-          {
-            tags: ["Vehicles"],
-            blockhash:
-              "0x517ee3a23e683c9d23646d998abcf06eda18121d0edc79c8a1deddd5ed9d5962",
-            owner: "0xB5F38Ab1fD869AB7193525a956BA8948Caa0BE47",
-            value: 10000,
-            contact: "yolo@gmail.com",
-            appraisers: {
-              "0x520884C561C01296C99F52A2839004bEaCDc3C80": true,
-              "0x9C3Df261E050A0241ACFf7CC2cDa07b65d9e359d": true,
-              "0x7A427198d68Cf92CfE1b1E1D6bEeB46D84b50807": false,
-              "0xa9b00221877d469831440d6554374Cc0E9714801": false,
-              "0x437bb59e889e3a98fB44a48E0fb9177a71c658B1": true,
-            },
-            ongoing: false,
-            consensus: true,
-            description:
-              "It is a Lamborghini Italian Car. I like it, but I want to sell it, please buy or I will make you.",
-          },
-          {
-            tags: ["Vehicles"],
-            blockhash:
-              "0x517ee3a23e683c9d23646d998abcf06eda18121d0edc79c8a1deddd5ed9d5962",
-            owner: "0xB5F38Ab1fD869AB7193525a956BA8948Caa0BE47",
-            value: 10000,
-            contact: "yolo@gmail.com",
-            appraisers: {
-              "0x520884C561C01296C99F52A2839004bEaCDc3C80": true,
-              "0x9C3Df261E050A0241ACFf7CC2cDa07b65d9e359d": true,
-              "0x7A427198d68Cf92CfE1b1E1D6bEeB46D84b50807": false,
-              "0xa9b00221877d469831440d6554374Cc0E9714801": false,
-              "0x437bb59e889e3a98fB44a48E0fb9177a71c658B1": true,
-            },
-            ongoing: false,
-            consensus: true,
-            description:
-              "It is a Lamborghini Italian Car. I like it, but I want to sell it, please buy or I will make you.",
-          },
         ],
       },
       completed: [
-        {
-          owner: {
-            tickets: ["lcnyQFfHvrGVR9CvTftR"],
-            tags: ["Vehicles", "Property"],
-            stake: true,
-            reputation: 50,
-            tickets_to_validate: {},
-            username: "Getoff Mylawn",
-            region: "Waterloo, Ontario, Canada",
-          },
-          tags: ["Vehicles"],
-          blockhash:
-            "0x517ee3a23e683c9d23646d998abcf06eda18121d0edc79c8a1deddd5ed9d5962",
-          contact: "yolo@gmail.com",
-          appraisers: {
-            "0x7A427198d68Cf92CfE1b1E1D6bEeB46D84b50807": false,
-            "0x520884C561C01296C99F52A2839004bEaCDc3C80": true,
-            "0x9C3Df261E050A0241ACFf7CC2cDa07b65d9e359d": true,
-            "0x437bb59e889e3a98fB44a48E0fb9177a71c658B1": true,
-            "0xa9b00221877d469831440d6554374Cc0E9714801": false,
-          },
-          value: 10000,
-          consensus: true,
-          ongoing: false,
-          description:
-            "It is a Lamborghini Italian Car. I like it, but I want to sell it, please buy or I will make you.",
-        },
       ],
     };
   }
@@ -228,6 +149,39 @@ class Home extends Component {
     getAllTickets(this.props.account)
       .then(response => {
         console.log(response)
+        // var t = response.tickets_to_validate
+        // var tickets = []
+        // for (let key in t){
+        //   if (t[key].appraisers[this.props.account] == null){
+        //     t[key].ticketId = key
+        //     tickets.push(t[key]);
+        //   }
+        // }
+        // this.setState({tickets})
+        var tt = response.tickets
+        var outgoing = {
+          pending: [],
+          resolved: []
+        }
+        for (let key in tt){
+          tt[key].ticketId = key;
+          if (tt[key].ongoing == true){
+            outgoing.pending.push(tt[key]);
+          } else{
+            outgoing.resolved.push(tt[key]);
+          }
+        }
+
+        var tc = response.tickets_to_validate
+        var completed = []
+        for (let key in tc){
+          if (tc[key].appraisers[this.props.account] != null){
+            tc[key].ticketId = key
+            completed.push(tc[key]);
+          }
+        }
+
+        this.setState({outgoing, completed})
       })
       .catch(err => {
         console.log(err);

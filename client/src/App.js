@@ -34,6 +34,10 @@ class App extends Component {
       var route = window.location.href.split("/")[
         window.location.href.split("/").length - 1
       ];
+      var link = ["home", "search", "submit", "appraise"].indexOf(
+        route
+      );
+      console.log(route)
 
       // Get network provider and web3 instance.
       const web3 = await getWeb3();
