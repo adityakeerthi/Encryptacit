@@ -1,4 +1,4 @@
-## How to use our deployed prototype
+## How to Use Our Deployed Prototype
 1. Please install Metamask through the chrome web store here: https://chrome.google.com/webstore/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn
 2. Follow the Metamask instructions to create your own wallet ID
 3. Please switch your network from the main etherium network to the Rinkeby Test Network
@@ -9,7 +9,7 @@
 Note: If you would like to try out some of the advanced features of our app, you may need to create multiple Metamask accounts.
 
 
-## QUICK INFO 
+## Quick Information 
 You can try out our **fully functional** app at: https://htn2021-27e30.web.app/, if you are new to blockckchain, our repo contains a readme which explains a little about how you can get started with using our app.
 
 ## Inspiration
